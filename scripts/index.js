@@ -1,29 +1,32 @@
 // Открытие и закрытие попапа, а также поля формы
-let edit_button = document.querySelector('.profile__edit-button');
-let close_button = document.querySelector('.edit-form__close-button');
-let overlay = document.querySelector('.edit__overlay');
-edit_button.addEventListener('click', function() {
-  document.querySelector("[name='name']").value = document.querySelector('.profile__name').innerHTML;
-  document.querySelector("[name='job']").value = document.querySelector('.profile__description').innerHTML;
-  document.querySelector('.edit').classList.add('edit_is-visible');
-});
+let profileEditButton = document.querySelector('.profile__edit-button');
+let popupCloseButton = document.querySelector('.edit-form__close-button');
+let popupOverlay = document.querySelector('.popup__overlay');
 
-function closeEditWindow() {
-  document.querySelector('.edit').classList.remove('edit_is-visible');
-}
-close_button.addEventListener('click', closeEditWindow);
-overlay.addEventListener('click', closeEditWindow);
-
-// Редактирование имени и информации о себе
-
+let popupElement = document.querySelector('.popup');
 let formElement = document.querySelector('.edit-form');
 let nameInput = formElement.querySelector("[name='name']");
+nameInput.value = document.querySelector('.profile__name').textContent;
 let jobInput = formElement.querySelector("[name='job']");
+jobInput.value = document.querySelector('.profile__description').textContent;
+
+let profileName = document.querySelector('.profile__name');
+let profileDescription = document.querySelector('.profile__description');
+
+function popupWindow() {
+  popupElement.classList.toggle('popup_opened');
+}
+
+profileEditButton.addEventListener('click', popupWindow);
+popupCloseButton.addEventListener('click', popupWindow);
+popupOverlay.addEventListener('click', popupWindow);
+
+// Редактирование имени и информации о себе
 function handleFormSubmit (evt) {
     evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-    document.querySelector('.profile__name').textContent = nameInput.value;
-    document.querySelector('.profile__description').textContent = jobInput.value;
-    closeEditWindow();
+    profileName.textContent = nameInput.value;
+    profileDescription.textContent = jobInput.value;
+    popupWindow();
 }
 formElement.addEventListener('submit', handleFormSubmit);
 

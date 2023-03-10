@@ -25,8 +25,9 @@
 @import url(../blocks/element/element.css);
 @import url(../blocks/footer/__info/footer__info.css);
 @import url(../blocks/footer/footer.css);
-@import url(../blocks/edit/edit.css);
-@import url(../blocks/edit/_is-visible/edit_is-visible.css);
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/__overlay/popup__overlay.css);
+@import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/edit-form/__close-button/edit-form__close-button.css);
 @import url(../blocks/edit-form/__field/edit-form__field.css);
 @import url(../blocks/edit-form/__fieldset/edit-form__fieldset.css);
@@ -34,31 +35,3 @@
 @import url(../blocks/edit-form/__submit-button/edit-form__submit-button.css);
 @import url(../blocks/edit-form/__title/edit-form__title.css);
 @import url(../blocks/edit-form/edit-form.css);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

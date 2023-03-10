@@ -5,7 +5,8 @@
   border: 0;
   padding-bottom: 41px;
   border-bottom: 1px solid;
-  border-color: #545454;
+  border-color: rgba(84, 84, 84, 0.7);
+
 }
 
 @media screen and (max-width: 1023px) {

@@ -21,5 +21,6 @@
     height: 20px;
     top: -36px;
     right: 0px;
+    background-size: contain;
   }
 }

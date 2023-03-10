@@ -9,11 +9,22 @@
   white-space: nowrap;
   overflow: hidden;
   position: relative;
+  grid-area: name;
 }
 
 @media screen and (max-width: 1023px) {
   .profile__name {
     font-size: 27px;
     line-height: 56px;
+    grid-area: unset;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .profile__name {
+    max-width: 250px;
+    align-self: center;
+    line-height: 32.68px;
+    margin-top: 22.25px;
   }
 }
