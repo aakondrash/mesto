@@ -1,6 +1,6 @@
 # Проект: Место
 
-[Ссылка на проект](https://aakondrash.github.io/mesto/)
+[Ссылка на проект](https://aakondrash.github.io/mesto/index.html)
 
 ### Обзор
 
