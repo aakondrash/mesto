@@ -1,14 +1,12 @@
 // Открытие и закрытие попапа, а также поля формы
 let profileEditButton = document.querySelector('.profile__edit-button');
-let popupCloseButton = document.querySelector('.edit-form__close-button');
+let popupCloseButton = document.querySelector('.popup__close-button');
 let popupOverlay = document.querySelector('.popup__overlay');
 
 let popupElement = document.querySelector('.popup');
 let formElement = document.querySelector('.edit-form');
 let nameInput = formElement.querySelector("[name='name']");
-nameInput.value = document.querySelector('.profile__name').textContent;
 let jobInput = formElement.querySelector("[name='job']");
-jobInput.value = document.querySelector('.profile__description').textContent;
 
 let profileName = document.querySelector('.profile__name');
 let profileDescription = document.querySelector('.profile__description');
@@ -17,7 +15,11 @@ function popupWindow() {
   popupElement.classList.toggle('popup_opened');
 }
 
-profileEditButton.addEventListener('click', popupWindow);
+profileEditButton.addEventListener('click', () => {
+  nameInput.value = document.querySelector('.profile__name').textContent;
+  jobInput.value = document.querySelector('.profile__description').textContent;
+  popupWindow();
+});
 popupCloseButton.addEventListener('click', popupWindow);
 popupOverlay.addEventListener('click', popupWindow);
 

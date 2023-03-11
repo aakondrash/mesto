@@ -84,25 +84,27 @@
       </section>
     </main>
     <footer class="footer">
-      <h2 class="footer__info">&copy; 2023 Mesto Russia</h2>
+      <p class="footer__info">&copy; 2023 Mesto Russia</p>
     </footer>
 
     <!-- Edit Form Pop Up -->
 
     <div class="popup">
-      <form class="edit-form" name="Редактировать профиль">
-        <fieldset class="edit-form__fieldset">
-          <h2 class="edit-form__title">Редактировать профиль</h2>
-          <div class="edit-form__field">
-            <input name="name" class="edit-form__input" type="text" placeholder="Имя">
-          </div>
-          <div class="edit-form__field">
-            <input name="job" class="edit-form__input" type="text" placeholder="Деятельность">
-          </div>
-          <button type="submit" class="edit-form__submit-button">Сохранить</button>
-        </fieldset>
-        <button type="button" class="edit-form__close-button"></button>
-      </form>
+      <div class="popup__container">
+        <form class="edit-form" name="Редактировать профиль">
+          <fieldset class="edit-form__fieldset">
+            <h2 class="edit-form__title">Редактировать профиль</h2>
+            <div class="edit-form__field">
+              <input name="name" class="edit-form__input" type="text" placeholder="Имя">
+            </div>
+            <div class="edit-form__field">
+              <input name="job" class="edit-form__input" type="text" placeholder="Деятельность">
+            </div>
+            <button type="submit" class="edit-form__submit-button">Сохранить</button>
+          </fieldset>
+        </form>
+        <button type="button" class="popup__close-button"></button>
+      </div>
       <div class="popup__overlay"></div>
     </div>
   </div>
