@@ -16,8 +16,8 @@ function popupWindow() {
 }
 
 profileEditButton.addEventListener('click', () => {
-  nameInput.value = document.querySelector('.profile__name').textContent;
-  jobInput.value = document.querySelector('.profile__description').textContent;
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileDescription.textContent;
   popupWindow();
 });
 popupCloseButton.addEventListener('click', popupWindow);
