@@ -96,6 +96,15 @@ function handleAddCardSubmit (evt) {
   element.querySelector('.element__delete-button').addEventListener('click', () => {
     element.querySelector('.element__delete-button').parentElement.remove();
   });
+  const fullScreenPic = document.querySelector('#openFullScreen');
+  const picDescription = fullScreenPic.querySelector(".image__description");
+  const picImage = fullScreenPic.querySelector(".image__photo");
+  element.querySelector('.element__picture').addEventListener('click', () => {
+    console.log(document.querySelector('.element__picture').parentElement.querySelector(".element__text").textContent);
+    picDescription.textContent = document.querySelector('.element__picture').parentElement.querySelector(".element__text").textContent;
+    picImage.src = document.querySelector('.element__picture').src;
+    fullScreenPic.classList.toggle('popup_opened');
+  });
   elementsList.insertBefore(element, elementsList.firstChild);
   addCardPopup.classList.toggle('popup_opened');
 }
