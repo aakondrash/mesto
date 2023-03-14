@@ -10,7 +10,6 @@
   <div class="page">
     <header class="header">
       <img class="header__logo" alt="Лого" src="images/logo.svg">
-      <!-- <hr class="header__line"> -->
     </header>
     <main class="content">
       <section class="profile">
@@ -26,60 +25,6 @@
       </section>
       <section class="elements">
         <ul class="elements__list">
-          <li class="element">
-            <img src="images/karachaevsk.jpg" class="element__picture" alt="Фото">
-            <div class="element__group">
-              <h2 class="element__text">Карачаевск</h2>
-              <div class="element__like">
-                <button type="button" class="element__like-button"></button>
-              </div>
-            </div>
-          </li>
-          <li class="element">
-            <img src="images/elbrus.jpg" class="element__picture" alt="Фото">
-            <div class="element__group">
-              <h2 class="element__text">Гора Эльбрус</h2>
-              <div class="element__like">
-                <button type="button" class="element__like-button"></button>
-              </div>
-            </div>
-          </li>
-          <li class="element">
-            <img src="images/dombai.jpg" class="element__picture" alt="Фото">
-            <div class="element__group">
-              <h2 class="element__text">Домбай</h2>
-              <div class="element__like">
-                <button type="button" class="element__like-button"></button>
-              </div>
-            </div>
-          </li>
-          <li class="element">
-            <img src="images/elbrus.jpg" class="element__picture" alt="Фото">
-            <div class="element__group">
-              <h2 class="element__text">Гора Эльбрус</h2>
-              <div class="element__like">
-                <button type="button" class="element__like-button"></button>
-              </div>
-            </div>
-          </li>
-          <li class="element">
-            <img src="images/dombai.jpg" class="element__picture" alt="Фото">
-            <div class="element__group">
-              <h2 class="element__text">Домбай</h2>
-              <div class="element__like">
-                <button type="button" class="element__like-button"></button>
-              </div>
-            </div>
-          </li>
-          <li class="element">
-            <img src="images/karachaevsk.jpg" class="element__picture" alt="Фото">
-            <div class="element__group">
-              <h2 class="element__text">Карачаево-Черкессия</h2>
-              <div class="element__like">
-                <button type="button" class="element__like-button"></button>
-              </div>
-            </div>
-          </li>
         </ul>
       </section>
     </main>
@@ -88,8 +33,7 @@
     </footer>
 
     <!-- Edit Form Pop Up -->
-
-    <div class="popup">
+    <div class="popup" name="editProfile">
       <div class="popup__container">
         <form class="edit-form" name="Редактировать профиль">
           <fieldset class="edit-form__fieldset">
@@ -105,6 +49,50 @@
         </form>
         <button type="button" class="popup__close-button"></button>
       </div>
+      <div class="popup__overlay"></div>
+    </div>
+    <!-- Add Card Form Pop Up -->
+    <div class="popup" name="addNewCard">
+      <div class="popup__container">
+        <form class="edit-form" name="Добавить фото">
+          <fieldset class="edit-form__fieldset">
+            <h2 class="edit-form__title">Новое место</h2>
+            <div class="edit-form__field">
+              <input name="place_name" class="edit-form__input" type="text" placeholder="Название">
+            </div>
+            <div class="edit-form__field">
+              <input name="place_link" class="edit-form__input" type="text" placeholder="Ссылка на картинку">
+            </div>
+            <button type="submit" class="edit-form__submit-button">Создать</button>
+          </fieldset>
+        </form>
+        <button type="button" class="popup__close-button"></button>
+      </div>
+      <div class="popup__overlay"></div>
+    </div>
+    <!-- Card element template -->
+    <template id="element">
+      <li class="element">
+        <button type="button" title="Удалить место" class="element__delete-button"></button>
+        <img src="#" class="element__picture" alt="Фото">
+        <div class="element__group">
+          <h2 class="element__text"></h2>
+          <div class="element__like">
+            <button type="button" class="element__like-button"></button>
+          </div>
+        </div>
+      </li>
+    </template>
+    <!-- Fullscreen image -->
+    <div id="openFullScreen" class="popup">
+      <div class="popup__container popup__container_fullscreen">
+        <div class="image">
+          <img class="image__photo" src="#" alt="Фото на весь экран" />
+          <p class="image__description"></p>
+          <button type="button" class="popup__close-button"></button>
+        </div>
+      </div>
+      <p class="image__description"></p>
       <div class="popup__overlay"></div>
     </div>
   </div>
