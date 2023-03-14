@@ -9,10 +9,11 @@
   background-color: transparent;
   background-size: auto;
   border: none;
-  transition: all .4s linear;
+  transition: all .1s linear;
 }
 
 .popup__close-button:hover {
+  cursor: pointer;
   opacity: 60%;
 }
 

@@ -11,6 +11,7 @@
 }
 
 .edit-form__submit-button:hover {
+  cursor: pointer;
   opacity: 80%;
 }
 
