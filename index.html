@@ -35,14 +35,16 @@
     <!-- Edit Form Pop Up -->
     <div class="popup" name="editProfile">
       <div class="popup__container">
-        <form class="edit-form" name="Редактировать профиль">
+        <form class="edit-form" name="Редактировать профиль" novalidate>
           <fieldset class="edit-form__fieldset">
             <h2 class="edit-form__title">Редактировать профиль</h2>
             <div class="edit-form__field">
-              <input name="name" class="edit-form__input" type="text" placeholder="Имя" required>
+              <input name="name" class="edit-form__input" type="text" placeholder="Имя" required minlength="2" maxlength="40">
+              <span id="name__error" class="edit-form__input-error"></span>
             </div>
             <div class="edit-form__field">
-              <input name="job" class="edit-form__input" type="text" placeholder="Деятельность" required>
+              <input name="job" class="edit-form__input" type="text" placeholder="Деятельность" required minlength="2" maxlength="200">
+              <span id="job__error" class="edit-form__input-error"></span>
             </div>
             <button type="submit" class="edit-form__submit-button">Сохранить</button>
           </fieldset>
@@ -53,16 +55,18 @@
     <!-- Add Card Form Pop Up -->
     <div class="popup" name="addNewCard">
       <div class="popup__container">
-        <form class="edit-form" name="Добавить фото">
+        <form class="edit-form" name="Добавить фото" novalidate>
           <fieldset class="edit-form__fieldset">
             <h2 class="edit-form__title">Новое место</h2>
             <div class="edit-form__field">
-              <input name="place_name" class="edit-form__input" type="text" placeholder="Название">
+              <input name="place_name" class="edit-form__input" type="text" placeholder="Название" required minlength="2" maxlength="30">
+              <span id="place_name__error" class="edit-form__input-error"></span>
             </div>
             <div class="edit-form__field">
-              <input name="place_link" class="edit-form__input" type="url" placeholder="Ссылка на картинку">
+              <input name="place_link" class="edit-form__input" type="url" placeholder="Ссылка на картинку" required>
+              <span id="place_link__error" class="edit-form__input-error"></span>
             </div>
-            <button type="submit" class="edit-form__submit-button">Создать</button>
+            <button type="submit" class="edit-form__submit-button edit-form__submit-button_disabled">Создать</button>
           </fieldset>
         </form>
         <button type="button" class="popup__close-button"></button>
@@ -93,5 +97,6 @@
     </div>
   </div>
   <script defer src="scripts/index.js"></script>
+  <script defer src="scripts/validate.js"></script>
 </body>
 </html>

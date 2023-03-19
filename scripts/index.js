@@ -40,19 +40,34 @@ const elementsList = document.querySelector('.elements__list');
 // - Переменные для попапа и добавления карточек
 const addCardButton = document.querySelector('.profile__add-button');
 const addCardPopup = document.querySelector("[name='addNewCard']");
-const addCardPopupCloseButton = addCardPopup.querySelector('.popup__close-button');
+const popupCloseButton = addCardPopup.querySelector('.popup__close-button');
 const addCardPopupFormElement = addCardPopup.querySelector('.edit-form');
 const addCardPopupNameInput = addCardPopupFormElement.querySelector("[name='place_name']");
 const addCardPopupLinkInput = addCardPopupFormElement.querySelector("[name='place_link']");
 addCardButton.addEventListener('click', () => {
   openPopup(addCardPopup);
 });
-addCardPopupCloseButton.addEventListener('click', () => {
+popupCloseButton.addEventListener('click', () => {
   closePopup(addCardPopup);
 });
-// addCardPopup.addEventListener('click', () => {
-//   addCardPopup.classList.toggle('popup_opened');
-// });
+
+const allPopups = Array.from(document.querySelectorAll(".popup"));
+function keyHandler(evt) {
+  if (evt.key === 'Escape') {
+    allPopups.forEach((popup) => {
+      closePopup(popup);
+    });
+  }
+}
+function overlayClickHandler(evt) {
+  if (evt.target.classList.contains("popup_opened")) {
+    allPopups.forEach((popup) => {
+      closePopup(popup);
+    });
+  }
+}
+document.addEventListener('keydown', keyHandler);
+document.addEventListener('click', overlayClickHandler);
 // - Переменные для широкого раскрытия картинок
 const popupPic = document.querySelector('#openFullScreen');
 const popupPicDescription = popupPic.querySelector(".image__description");
