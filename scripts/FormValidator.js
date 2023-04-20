@@ -5,6 +5,8 @@ class FormValidator {
   ) {
     this._validationData = validationData;
     this._formToValidate = formToValidate;
+    this._inputList = Array.from(this._formToValidate.querySelectorAll(`.${this._validationData.inputSelector}`));
+    this._buttonElement = this._formToValidate.querySelector(this._validationData.submitButtonSelector);
   }
 
   _showInputError(inputElement, errorMessage) {
@@ -31,36 +33,39 @@ class FormValidator {
     }
   };
 
-  _checkFormValidity(inputList) {
-    return inputList.some((inputElement) => {
+  _checkFormValidity() {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   };
 
-  _setButtonState(inputList) {
-    const buttonElement = this._formToValidate.querySelector(this._validationData.submitButtonSelector);
-    if (this._checkFormValidity(inputList)) {
-      buttonElement.setAttribute('disabled', 'disabled');
-      buttonElement.classList.add(this._validationData.inactiveButtonClass);
+  _setButtonState() {
+    if (this._checkFormValidity()) {
+      this.disableSubmitButton();
     } else {
-      buttonElement.removeAttribute('disabled');
-      buttonElement.classList.remove(this._validationData.inactiveButtonClass);
+      this._buttonElement.removeAttribute('disabled');
+      this._buttonElement.classList.remove(this._validationData.inactiveButtonClass);
     }
   };
 
   _setEventListeners() {
-    const inputList = Array.from(this._formToValidate.querySelectorAll(`.${this._validationData.inputSelector}`));
-    inputList.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', (evt) => {
         this._checkInputValidity(inputElement);
-        this._setButtonState(inputList);
+        this._setButtonState();
       });
     });
+  };
+
+  disableSubmitButton(button = this._buttonElement) {
+    button.setAttribute('disabled', 'disabled');
+    button.classList.add("edit-form__submit-button_disabled");
   };
 
   enableValidation() {
     this._formToValidate.addEventListener('submit', (evt) => {
       evt.preventDefault();
+      this.disableSubmitButton();
     });
     this._setEventListeners();
   };

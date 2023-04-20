@@ -75,6 +75,8 @@ function handleOverlayClick(evt) {
 
 // - Переменные для широкого раскрытия картинок
 const popupPic = document.querySelector('#openFullScreen');
+const popupPicImage = popupPic.querySelector(".image__photo");
+const popupPicDescription = popupPic.querySelector(".image__description");
 
 // - Функции...
 function openPopup(el) {
@@ -107,19 +109,14 @@ function handleProfileEditFormSubmit(evt) {
 editProfileFormElement.addEventListener('submit', handleProfileEditFormSubmit);
 
 // - Добавление карточки
-function disableButton(button) {
-  button.setAttribute('disabled', 'disabled');
-  button.classList.add("edit-form__submit-button_disabled");
+function createNewCard(data) {
+  return new Card(data, elementTemplate, openPopup, popupPic, popupPicImage, popupPicDescription);
 }
 
 function handleAddCardSubmit(evt) {
   evt.preventDefault();
-  const card = new Card({name: addCardPopupNameInput.value, link: addCardPopupLinkInput.value},
-                        elementTemplate,
-                        openPopup,
-                        popupPic);
+  const card = createNewCard({name: addCardPopupNameInput.value, link: addCardPopupLinkInput.value});
   renderCard(card.createCard());
-  disableButton(evt.target.querySelector(".edit-form__submit-button"));
   evt.target.reset();
   closePopup(addCardPopup);
 }
@@ -127,17 +124,13 @@ addCardPopupFormElement.addEventListener('submit', handleAddCardSubmit);
 
 // - Шесть карточек «из коробки»
 initialCards.forEach((data) => {
-  const card = new Card(data,
-                        elementTemplate,
-                        openPopup,
-                        popupPic);
+  const card = createNewCard(data);
   renderCard(card.createCard());
 });
 
 // - Валидация всех форм
 const formList = Array.from(document.querySelectorAll(".edit-form"));
 formList.forEach((formElement) => {
-  console.log(formElement);
   const validation = new FormValidator(
     valData,
     formElement

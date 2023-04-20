@@ -3,12 +3,16 @@ class Card {
     cardData,
     cardTemplate,
     openPopupFunc,
-    imagePopup
+    imagePopup,
+    imagePopupPicture,
+    imagePopupDescription
   ) {
     this._cardData = cardData;
     this._cardTemplate = cardTemplate;
     this._openPopupFunc = openPopupFunc;
     this._imagePopup = imagePopup;
+    this._imagePopupPicture = imagePopupPicture;
+    this._imagePopupDescription = imagePopupDescription;
   }
 
   _getCardTemplate() {
@@ -24,10 +28,10 @@ class Card {
       element.remove();
     });
     elementPicture.addEventListener('click', () => {
-      popupPic.querySelector(".image__description").textContent = this._cardData.name;
-      popupPic.querySelector(".image__photo").src = this._cardData.link;
-      popupPic.querySelector(".image__photo").alt = `Фото места ${this._cardData.name}`;
-      this._openPopupFunc(popupPic);
+      this._imagePopupDescription.textContent = this._cardData.name;
+      this._imagePopupPicture.src = this._cardData.link;
+      this._imagePopupPicture.alt = `Фото места ${this._cardData.name}`;
+      this._openPopupFunc(this._imagePopup);
     });
   }
 
