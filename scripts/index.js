@@ -7,6 +7,15 @@ const editProfileElement =  document.querySelector("[name='editProfile']");
 const editProfileFormElement = editProfileElement.querySelector('.edit-form');
 const editProfileNameInput = editProfileFormElement.querySelector("[name='name']");
 const editProfileDescriptionInput = editProfileFormElement.querySelector("[name='job']");
+const valData = {
+  formSelector: '.edit-form',
+  inputSelector: 'edit-form__input',
+  submitButtonSelector: '.edit-form__submit-button',
+  inactiveButtonClass: 'edit-form__submit-button_disabled',
+  inputErrorClass: 'edit-form__input-error',
+  errorClass: 'edit-form__input-error_visible'
+};
+
 // - Карточки и заполнение контентом
 const initialCards = [
   {
@@ -36,6 +45,7 @@ const initialCards = [
 ];
 const elementTemplate = document.querySelector('#element').content;
 const elementsList = document.querySelector('.elements__list');
+
 // - Переменные для попапа и добавления карточек
 const addCardButton = document.querySelector('.profile__add-button');
 const addCardPopup = document.querySelector("[name='addNewCard']");
@@ -62,10 +72,10 @@ function handleOverlayClick(evt) {
     allPopups.forEach(closePopup);
   }
 }
+
 // - Переменные для широкого раскрытия картинок
 const popupPic = document.querySelector('#openFullScreen');
-const popupPicDescription = popupPic.querySelector(".image__description");
-const popupPicImage = popupPic.querySelector(".image__photo");
+
 // - Функции...
 function openPopup(el) {
   document.addEventListener('keydown', handleEscapeKey);
@@ -77,27 +87,8 @@ function closePopup(el) {
   el.removeEventListener('click', handleOverlayClick);
   el.classList.remove('popup_opened');
 }
-function createCard(data) {
-  const element = elementTemplate.querySelector('.element').cloneNode(true);
-  const elementPicture = element.querySelector('.element__picture');
-  elementPicture.src = data.link;
-  elementPicture.alt = `Фото места ${data.name}`;
-  element.querySelector('.element__text').textContent = data.name;
-  element.querySelector('.element__like-button').addEventListener('click', (event) => {
-    event.currentTarget.classList.toggle('element__like-button_is-active');
-  });
-  element.querySelector('.element__delete-button').addEventListener('click', (event) => {
-    element.remove();
-  });
-  elementPicture.addEventListener('click', () => {
-    popupPicDescription.textContent = data.name;
-    popupPicImage.src = data.link;
-    popupPicImage.alt = `Фото места ${data.name}`;
-    openPopup(popupPic);
-  });
-  return element;
-}
-const renderCard = data => elementsList.prepend(createCard(data));
+const renderCard = cardContent => elementsList.prepend(cardContent);
+
 // МЕХАНИКИ
 // - Открытие и закрытие попапа, а также поля формы
 profileEditButton.addEventListener('click', () => {
@@ -123,10 +114,11 @@ function disableButton(button) {
 
 function handleAddCardSubmit(evt) {
   evt.preventDefault();
-  renderCard({
-    name: addCardPopupNameInput.value,
-    link: addCardPopupLinkInput.value
-  });
+  const card = new Card({name: addCardPopupNameInput.value, link: addCardPopupLinkInput.value},
+                        elementTemplate,
+                        openPopup,
+                        popupPic);
+  renderCard(card.createCard());
   disableButton(evt.target.querySelector(".edit-form__submit-button"));
   evt.target.reset();
   closePopup(addCardPopup);
@@ -134,4 +126,21 @@ function handleAddCardSubmit(evt) {
 addCardPopupFormElement.addEventListener('submit', handleAddCardSubmit);
 
 // - Шесть карточек «из коробки»
-initialCards.forEach(renderCard);
+initialCards.forEach((data) => {
+  const card = new Card(data,
+                        elementTemplate,
+                        openPopup,
+                        popupPic);
+  renderCard(card.createCard());
+});
+
+// - Валидация всех форм
+const formList = Array.from(document.querySelectorAll(".edit-form"));
+formList.forEach((formElement) => {
+  console.log(formElement);
+  const validation = new FormValidator(
+    valData,
+    formElement
+  );
+  validation.enableValidation();
+});
