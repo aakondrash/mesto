@@ -1,11 +1,11 @@
-import './pages/index.css';
+import './index.css';
 
-import FormValidator from './scripts/FormValidator.js';
-import Section from "./scripts/Section.js";
-import Card from "./scripts/Card.js";
-import UserInfo from "./scripts/UserInfo.js";
-import PopupWithForm from "./scripts/PopupWithForm.js";
-import PopupWithImage from "./scripts/PopupWithImage.js";
+import FormValidator from '../scripts/components/FormValidator.js';
+import Section from "../scripts/components/Section.js";
+import Card from "../scripts/components/Card.js";
+import UserInfo from "../scripts/components/UserInfo.js";
+import PopupWithForm from "../scripts/components/PopupWithForm.js";
+import PopupWithImage from "../scripts/components/PopupWithImage.js";
 
 // ВСЕ ПЕРЕМЕННЫЕ
 // - Переменные для попапа и информации о себе
@@ -79,15 +79,15 @@ const openImagePopup = (evt) => {
 };
 
 function createNewCard(data) {
-  return new Card(data, elementTemplate, popupPic, popupPicImage, popupPicDescription, openImagePopup);
+  const card = new Card(data, elementTemplate, popupPic, popupPicImage, popupPicDescription, openImagePopup);
+  return card.createCard();
 }
 
 const section = new Section(
   {
     items: initialCards,
     renderer: (data) => {
-      const card = createNewCard(data);
-      section.addItem(card.createCard());
+      section.addItem(createNewCard(data));
     },
   },
   elementsList
@@ -112,8 +112,7 @@ const addNewCardPopup = new PopupWithForm(
       name: data.place_name,
       link: data.place_link,
     };
-    const card = createNewCard(item);
-    section.addItem(card.createCard());
+    section.addItem(createNewCard(item));
     addNewCardPopup.close();
   }
 );
