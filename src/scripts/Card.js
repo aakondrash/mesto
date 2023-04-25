@@ -1,18 +1,18 @@
-class Card {
+export default class Card {
   constructor(
     cardData,
     cardTemplate,
-    openPopupFunc,
     imagePopup,
     imagePopupPicture,
-    imagePopupDescription
+    imagePopupDescription,
+    handleCardClick
   ) {
     this._cardData = cardData;
     this._cardTemplate = cardTemplate;
-    this._openPopupFunc = openPopupFunc;
     this._imagePopup = imagePopup;
     this._imagePopupPicture = imagePopupPicture;
     this._imagePopupDescription = imagePopupDescription;
+    this._handleCardClick = handleCardClick;
   }
 
   _getCardTemplate() {
@@ -28,10 +28,7 @@ class Card {
       element.remove();
     });
     elementPicture.addEventListener('click', () => {
-      this._imagePopupDescription.textContent = this._cardData.name;
-      this._imagePopupPicture.src = this._cardData.link;
-      this._imagePopupPicture.alt = `Фото места ${this._cardData.name}`;
-      this._openPopupFunc(this._imagePopup);
+      this._handleCardClick(this._cardData);
     });
   }
 

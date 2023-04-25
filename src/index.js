@@ -1,13 +1,22 @@
+import './pages/index.css';
+
+import FormValidator from './scripts/FormValidator.js';
+import Section from "./scripts/Section.js";
+import Card from "./scripts/Card.js";
+import UserInfo from "./scripts/UserInfo.js";
+import PopupWithForm from "./scripts/PopupWithForm.js";
+import PopupWithImage from "./scripts/PopupWithImage.js";
+
 // ВСЕ ПЕРЕМЕННЫЕ
 // - Переменные для попапа и информации о себе
 const profileName = document.querySelector('.profile__name');
 const profileDescription = document.querySelector('.profile__description');
 const profileEditButton = document.querySelector('.profile__edit-button');
-const editProfileElement =  document.querySelector("[name='editProfile']");
+const editProfileElement =  document.querySelector('#editProfile');
 const editProfileFormElement = editProfileElement.querySelector('.edit-form');
 const editProfileNameInput = editProfileFormElement.querySelector("[name='name']");
 const editProfileDescriptionInput = editProfileFormElement.querySelector("[name='job']");
-const valData = {
+const validationConfig = {
   formSelector: '.edit-form',
   inputSelector: 'edit-form__input',
   submitButtonSelector: '.edit-form__submit-button',
@@ -48,91 +57,82 @@ const elementsList = document.querySelector('.elements__list');
 
 // - Переменные для попапа и добавления карточек
 const addCardButton = document.querySelector('.profile__add-button');
-const addCardPopup = document.querySelector("[name='addNewCard']");
+const addCardPopup = document.querySelector('#addNewCard');
 const addCardPopupFormElement = addCardPopup.querySelector('.edit-form');
 const addCardPopupNameInput = addCardPopupFormElement.querySelector("[name='place_name']");
 const addCardPopupLinkInput = addCardPopupFormElement.querySelector("[name='place_link']");
-addCardButton.addEventListener('click', () => {
-  openPopup(addCardPopup);
-});
-const closeButtons = document.querySelectorAll('.popup__close-button');
-closeButtons.forEach((button) => {
-  const popup = button.closest('.popup');
-  button.addEventListener('click', () => closePopup(popup));
-});
-
-const allPopups = Array.from(document.querySelectorAll(".popup"));
-function handleEscapeKey(evt) {
-  if (evt.key === 'Escape') {
-    allPopups.forEach(closePopup);
-  }
-}
-function handleOverlayClick(evt) {
-  if (evt.target.classList.contains("popup_opened")) {
-    allPopups.forEach(closePopup);
-  }
-}
 
 // - Переменные для широкого раскрытия картинок
 const popupPic = document.querySelector('#openFullScreen');
 const popupPicImage = popupPic.querySelector(".image__photo");
 const popupPicDescription = popupPic.querySelector(".image__description");
 
-// - Функции...
-function openPopup(el) {
-  document.addEventListener('keydown', handleEscapeKey);
-  el.addEventListener('click', handleOverlayClick);
-  el.classList.add('popup_opened');
-}
-function closePopup(el) {
-  document.removeEventListener('keydown', handleEscapeKey);
-  el.removeEventListener('click', handleOverlayClick);
-  el.classList.remove('popup_opened');
-}
-const renderCard = cardContent => elementsList.prepend(cardContent);
+const popupWithImage = new PopupWithImage(popupPic);
+popupWithImage.setEventListeners();
 
-// МЕХАНИКИ
-// - Открытие и закрытие попапа, а также поля формы
-profileEditButton.addEventListener('click', () => {
-  editProfileNameInput.value = profileName.textContent;
-  editProfileDescriptionInput.value = profileDescription.textContent;
-  openPopup(editProfileElement);
-});
+const openImagePopup = (evt) => {
+  const data = {
+    link: evt.link,
+    name: evt.name,
+  };
+  popupWithImage.open(data);
+};
 
-// - Редактирование имени и информации о себе
-function handleProfileEditFormSubmit(evt) {
-    evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-    profileName.textContent = editProfileNameInput.value;
-    profileDescription.textContent = editProfileDescriptionInput.value;
-    closePopup(editProfileElement);
-}
-editProfileFormElement.addEventListener('submit', handleProfileEditFormSubmit);
-
-// - Добавление карточки
 function createNewCard(data) {
-  return new Card(data, elementTemplate, openPopup, popupPic, popupPicImage, popupPicDescription);
+  return new Card(data, elementTemplate, popupPic, popupPicImage, popupPicDescription, openImagePopup);
 }
 
-function handleAddCardSubmit(evt) {
-  evt.preventDefault();
-  const card = createNewCard({name: addCardPopupNameInput.value, link: addCardPopupLinkInput.value});
-  renderCard(card.createCard());
-  evt.target.reset();
-  closePopup(addCardPopup);
-}
-addCardPopupFormElement.addEventListener('submit', handleAddCardSubmit);
+const section = new Section(
+  {
+    items: initialCards,
+    renderer: (data) => {
+      const card = createNewCard(data);
+      section.addItem(card.createCard());
+    },
+  },
+  elementsList
+);
+section.renderItems();
 
-// - Шесть карточек «из коробки»
-initialCards.forEach((data) => {
-  const card = createNewCard(data);
-  renderCard(card.createCard());
+const userInfo = new UserInfo(profileName, profileDescription);
+
+const editPopup = new PopupWithForm(
+  editProfileElement,
+  (data) => {
+    userInfo.setUserInfo(data);
+    editPopup.close();
+  }
+);
+editPopup.setEventListeners();
+
+const addNewCardPopup = new PopupWithForm(
+  addCardPopup,
+  (data) => {
+    const item = {
+      name: data.place_name,
+      link: data.place_link,
+    };
+    const card = createNewCard(item);
+    section.addItem(card.createCard());
+    addNewCardPopup.close();
+  }
+);
+addNewCardPopup.setEventListeners();
+
+profileEditButton.addEventListener("click", () => {
+  const data = userInfo.getUserInfo();
+  editProfileNameInput.value = data.name;
+  editProfileDescriptionInput.value = data.info;
+  editPopup.open();
+});
+addCardButton.addEventListener("click", () => {
+  addNewCardPopup.open();
 });
 
-// - Валидация всех форм
 const formList = Array.from(document.querySelectorAll(".edit-form"));
 formList.forEach((formElement) => {
   const validation = new FormValidator(
-    valData,
+    validationConfig,
     formElement
   );
   validation.enableValidation();
