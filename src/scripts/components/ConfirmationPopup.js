@@ -1,36 +1,27 @@
 import Popup from "./Popup.js";
 
-export default class PopupWithForm extends Popup {
+export default class ConfirmationPopup extends Popup {
   constructor(popupElement, submitWithCallback) {
     super(popupElement);
     this._submitWithCallback = submitWithCallback;
     this._formSubmition = this._formSubmition.bind(this);
     this._form = this._popupElement.querySelector(".edit-form");
     this._submitionButton = this._form.querySelector(".edit-form__submit-button");
-    this._inputFields = Array.from(this._form.querySelectorAll(".edit-form__input"));
   }
 
   _formSubmition(evt) {
     evt.preventDefault();
+    this._submitWithCallback(this.data, this._submitionButton);
+  }
+
+  _enableSubmitButton() {
     this._submitionButton.classList.remove("edit-form__submit-button_disabled");
-    this._submitWithCallback(this._getValuesFromInputs(), this._submitionButton);
-  }
-
-  _getValuesFromInputs() {
-    const data = {};
-    this._inputFields.forEach((input) => {
-      data[input.name] = input.value;
-    });
-    return data;
-  }
-
-  close() {
-    super.close();
-    this._form.reset();
+    this._submitionButton.removeAttribute("disabled");
   }
 
   setEventListeners() {
     super.setEventListeners();
+    this._enableSubmitButton();
     this._form.addEventListener("submit", this._formSubmition);
   }
 }
