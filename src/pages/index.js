@@ -21,7 +21,7 @@ const editProfileDescriptionInput = editProfileFormElement.querySelector("[name=
 
 const editAvatarElement = document.querySelector('#editAvatar');
 const profileAvatar = document.querySelector(".profile__avatar-image");
-const profileAvatarEditButton = document.querySelector(".profile__avatar_edit-button");
+const profileAvatarEditButton = document.querySelector(".profile__avatar-edit-button");
 
 const validationConfig = {
   formSelector: '.edit-form',
