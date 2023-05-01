@@ -1,6 +1,6 @@
 import Popup from "./Popup.js";
 
-export default class ConfirmationPopup extends Popup {
+export default class PopupWithConfirmation extends Popup {
   constructor(popupElement, submitWithCallback) {
     super(popupElement);
     this._submitWithCallback = submitWithCallback;
@@ -14,14 +14,12 @@ export default class ConfirmationPopup extends Popup {
     this._submitWithCallback(this.data, this._submitionButton);
   }
 
-  _enableSubmitButton() {
-    this._submitionButton.classList.remove("edit-form__submit-button_disabled");
-    this._submitionButton.removeAttribute("disabled");
+  removeCard(data) {
+    data.card.remove();
   }
 
   setEventListeners() {
     super.setEventListeners();
-    this._enableSubmitButton();
     this._form.addEventListener("submit", this._formSubmition);
   }
 }

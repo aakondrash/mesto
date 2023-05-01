@@ -12,7 +12,6 @@ export default class PopupWithForm extends Popup {
 
   _formSubmition(evt) {
     evt.preventDefault();
-    this._submitionButton.classList.remove("edit-form__submit-button_disabled");
     this._submitWithCallback(this._getValuesFromInputs(), this._submitionButton);
   }
 

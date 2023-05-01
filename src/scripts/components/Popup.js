@@ -28,6 +28,10 @@ export default class Popup {
     }
   }
 
+  setButtonText(submitButtonSelector, string) {
+    submitButtonSelector.textContent = string;
+  }
+
   setEventListeners() {
     this._popupCloseButton.addEventListener("click", () => {
       this.close();

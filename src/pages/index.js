@@ -7,7 +7,7 @@ import UserInfo from "../scripts/components/UserInfo.js";
 import PopupWithForm from "../scripts/components/PopupWithForm.js";
 import PopupWithImage from "../scripts/components/PopupWithImage.js";
 import Api from "../scripts/components/Api.js";
-import ConfirmationPopup from '../scripts/components/ConfirmationPopup.js';
+import PopupWithConfirmation from '../scripts/components/PopupWithConfirmation.js';
 
 // ВСЕ ПЕРЕМЕННЫЕ
 // - Переменные для попапа и информации о себе
@@ -53,31 +53,31 @@ const api = new Api({
 
 const profileInfoData = api.getProfileInfo();
 const initialCardsData = api.getInitialCards();
-let userId, likeCard, unlikeCard, deleteCard;
+let userId;
 
 const popupWithImage = new PopupWithImage(popupPic);
 popupWithImage.setEventListeners();
 
-const openImagePopup = (evt) => {
-  const data = {
-    link: evt.link,
-    name: evt.name,
-  };
+const openImagePopup = (data) => {
   popupWithImage.open(data);
 };
 
 function createNewCard(data) {
   const card = new Card(data, elementTemplate, openImagePopup, userId,
-    (deleteCard = (data) => {
+    (data) => {
       deleteCardPopup.data = data;
       deleteCardPopup.open();
-    }),
-    (likeCard = (data) => {
-      return api.handleCardLike(data);
-    }),
-    (unlikeCard = (data) => {
-      return api.removeCardLike(data);
-    })
+    },
+    (cardId) => {
+      api.handleCardLike(cardId).then((res) => {
+        card.setLike(res);
+      }).catch((err) => console.log(err));
+    },
+    (cardId) => {
+      api.removeCardLike(cardId).then((res) => {
+        card.unsetLike(res);
+      }).catch((err) => console.log(err));
+    }
   );
   return card.createCard();
 }
@@ -96,7 +96,7 @@ const userInfo = new UserInfo(profileName, profileDescription, userId, profileAv
 const editPopup = new PopupWithForm(
   editProfileElement,
   (data, button) => {
-    button.textContent = "Сохранение...";
+    editPopup.setButtonText(button, "Сохранение...");
     api.editProfileInfo(data)
       .then((res) => {
         userInfo.setUserInfo({
@@ -107,7 +107,7 @@ const editPopup = new PopupWithForm(
       })
       .catch((err) => console.log(err))
       .finally(() => {
-        button.textContent = "Сохранить";
+        editPopup.setButtonText(button, "Сохранить");
       });
   },
 );
@@ -116,7 +116,7 @@ editPopup.setEventListeners();
 const editAvatar = new PopupWithForm(
   editAvatarElement,
   (data, button) => {
-    button.textContent = "Сохранение...";
+    editAvatar.setButtonText(button, "Сохранение...");
     api.editAvatar(data)
       .then((res) => {
         userInfo.setUserAvatar(res);
@@ -124,7 +124,7 @@ const editAvatar = new PopupWithForm(
       })
       .catch((err) => console.log(err))
       .finally(() => {
-        button.textContent = "Сохранить";
+        editAvatar.setButtonText(button, "Сохранить");
       });
   },
 );
@@ -133,7 +133,7 @@ editAvatar.setEventListeners();
 const addNewCardPopup = new PopupWithForm(
   addCardPopup,
   (data, button) => {
-    button.textContent = "Сохранение...";
+    addNewCardPopup.setButtonText(button, "Сохранение...");
     const item = {
       name: data.place_name,
       link: data.place_link,
@@ -145,26 +145,26 @@ const addNewCardPopup = new PopupWithForm(
       })
       .catch((err) => console.log(err))
       .finally(() => {
-        button.textContent = "Сохранить";
+        addNewCardPopup.setButtonText(button, "Сохранить");
       });
   },
 );
 addNewCardPopup.setEventListeners();
 
-const deleteCardPopup = new ConfirmationPopup(
+const deleteCardPopup = new PopupWithConfirmation(
   confirmationForm,
   (data, button) => {
-    button.textContent = "Удаление...";
+    deleteCardPopup.setButtonText(button, "Удаление...");
     api.deleteCard(data.cardId)
       .then(() => {
         deleteCardPopup.close();
       })
       .then(() => {
-        data.card.remove();
+        deleteCardPopup.removeCard(data);
       })
       .catch((err) => console.log(err))
       .finally(() => {
-        button.textContent = "Да";
+        deleteCardPopup.setButtonText(button, "Да");
       });
 });
 deleteCardPopup.setEventListeners();
@@ -192,15 +192,6 @@ addCardButton.addEventListener("click", () => {
   addPopupValidation.disableSubmitButton();
   addNewCardPopup.open();
 });
-
-// const formList = Array.from(document.querySelectorAll(".edit-form"));
-// formList.forEach((formElement) => {
-//   const validation = new FormValidator(
-//     validationConfig,
-//     formElement
-//   );
-//   validation.enableValidation();
-// });
 
 Promise.all([profileInfoData, initialCardsData])
   .then(([profileData, cardsData]) => {
