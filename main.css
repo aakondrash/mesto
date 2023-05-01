@@ -17,10 +17,11 @@
 .profile{align-items:center;box-sizing:border-box;display:flex;flex-direction:row;padding-top:40px;width:100%}@media screen and (max-width:1023px){.profile{flex-direction:column;padding-top:38.25px}}
 .elements__list{-moz-column-gap:17px;column-gap:17px;display:grid;grid-template-columns:repeat(3,1fr);justify-items:center;list-style:none;margin:0 auto;padding:0;row-gap:20px;width:100%}@media screen and (max-width:1279px){.elements__list{grid-template-columns:repeat(2,1fr);max-width:582px}}@media screen and (max-width:767px){.elements__list{grid-template-columns:repeat(1,1fr)}}
 .elements{margin-top:51px;width:100%}@media screen and (max-width:767px){.elements{margin-top:36px}}
-.element__delete-button{align-self:center;background-color:transparent;background-image:url(823b0cf1b0b7e9cb7cad.svg);background-position:50% 50%;background-repeat:no-repeat;border:0;height:19px;position:absolute;right:20px;top:20px;width:18px}.element__delete-button:hover{cursor:pointer;opacity:.6}
+.element__delete-button{align-self:center;background-color:transparent;background-image:url(823b0cf1b0b7e9cb7cad.svg);background-position:50% 50%;background-repeat:no-repeat;border:0;display:none;height:19px;position:absolute;right:20px;top:20px;width:18px}.element__delete-button:hover{cursor:pointer;opacity:.6}
+.element__delete-button_is-active{display:block}
 .element__group{display:flex;flex-direction:row;margin:25px 15px 31px 21px}
 .element__like-button{align-self:center;background-color:transparent;background-image:url(87ed371465c7a6a1cd01.svg);background-position:50% 50%;background-repeat:no-repeat;border:0;height:19px;margin:auto;width:22px}.element__like-button:hover{cursor:pointer;opacity:50%}
-.element__like-number{color:#000;display:none;font-size:13px;font-weight:400;line-height:16px;margin-top:3px;text-align:center}
+.element__like-number{color:#000;font-size:13px;font-weight:400;line-height:16px;margin-top:3px;text-align:center}
 .element__like-button_is-active{background-image:url(fe17a515669479b1e649.svg)}.element__like-button_is-active:hover{cursor:pointer;opacity:.5}
 .element__like{display:flex;flex-direction:column;margin-left:auto}
 .element__picture{background-color:#000;display:block;height:282px;width:282px}.element__picture:hover{cursor:pointer}
