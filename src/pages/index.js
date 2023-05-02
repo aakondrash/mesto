@@ -65,8 +65,19 @@ const openImagePopup = (data) => {
 function createNewCard(data) {
   const card = new Card(data, elementTemplate, openImagePopup, userId,
     (data) => {
-      deleteCardPopup.data = data;
       deleteCardPopup.open();
+      deleteCardPopup.setSubmitionCallback(() => {
+        deleteCardPopup.setButtonText("Удаление...");
+        api.deleteCard(data.cardId)
+        .then(() => {
+          card.removeCard();
+          deleteCardPopup.close();
+        })
+        .catch((err) => console.log(err))
+        .finally(() => {
+          deleteCardPopup.setButtonText("Да");
+        });
+      });
     },
     (cardId) => {
       api.handleCardLike(cardId).then((res) => {
@@ -95,8 +106,8 @@ const userInfo = new UserInfo(profileName, profileDescription, userId, profileAv
 
 const editPopup = new PopupWithForm(
   editProfileElement,
-  (data, button) => {
-    editPopup.setButtonText(button, "Сохранение...");
+  (data) => {
+    editPopup.setButtonText("Сохранение...");
     api.editProfileInfo(data)
       .then((res) => {
         userInfo.setUserInfo({
@@ -107,7 +118,7 @@ const editPopup = new PopupWithForm(
       })
       .catch((err) => console.log(err))
       .finally(() => {
-        editPopup.setButtonText(button, "Сохранить");
+        editPopup.setButtonText("Сохранить");
       });
   },
 );
@@ -115,8 +126,8 @@ editPopup.setEventListeners();
 
 const editAvatar = new PopupWithForm(
   editAvatarElement,
-  (data, button) => {
-    editAvatar.setButtonText(button, "Сохранение...");
+  (data) => {
+    editAvatar.setButtonText("Сохранение...");
     api.editAvatar(data)
       .then((res) => {
         userInfo.setUserAvatar(res);
@@ -124,7 +135,7 @@ const editAvatar = new PopupWithForm(
       })
       .catch((err) => console.log(err))
       .finally(() => {
-        editAvatar.setButtonText(button, "Сохранить");
+        editAvatar.setButtonText("Сохранить");
       });
   },
 );
@@ -132,8 +143,8 @@ editAvatar.setEventListeners();
 
 const addNewCardPopup = new PopupWithForm(
   addCardPopup,
-  (data, button) => {
-    addNewCardPopup.setButtonText(button, "Сохранение...");
+  (data) => {
+    addNewCardPopup.setButtonText("Сохранение...");
     const item = {
       name: data.place_name,
       link: data.place_link,
@@ -145,28 +156,13 @@ const addNewCardPopup = new PopupWithForm(
       })
       .catch((err) => console.log(err))
       .finally(() => {
-        addNewCardPopup.setButtonText(button, "Сохранить");
+        addNewCardPopup.setButtonText("Сохранить");
       });
   },
 );
 addNewCardPopup.setEventListeners();
 
-const deleteCardPopup = new PopupWithConfirmation(
-  confirmationForm,
-  (data, button) => {
-    deleteCardPopup.setButtonText(button, "Удаление...");
-    api.deleteCard(data.cardId)
-      .then(() => {
-        deleteCardPopup.close();
-      })
-      .then(() => {
-        deleteCardPopup.removeCard(data);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        deleteCardPopup.setButtonText(button, "Да");
-      });
-});
+const deleteCardPopup = new PopupWithConfirmation(confirmationForm);
 deleteCardPopup.setEventListeners();
 
 const editPopupValidation = new FormValidator(validationConfig, editProfileElement);

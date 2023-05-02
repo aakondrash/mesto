@@ -74,6 +74,11 @@ export default class Card {
     this._likeButton.classList.remove('element__like-button_is-active');
   }
 
+  removeCard() {
+    this._element.remove();
+    this._element = null;
+  }
+
   createCard() {
     this._elementPicture.src = this._cardData.link;
     this._elementPicture.alt = `Фото места ${this._cardData.name}`;
